@@ -9,6 +9,7 @@ function Customer() {
            <Router>
            <Routes>
            <Route path = "/" element= {<CustomerList/>}/>
+           
            <Route path="/form" element={<CustomerForm/>}/>
            <Route path='/form/:customerName' element={<CustomerForm/>}/> 
            <Route path="/signup" element ={<Signup/>}/>      

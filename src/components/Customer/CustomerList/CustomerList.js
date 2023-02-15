@@ -7,6 +7,8 @@ function CustomerList(){
     const [customer, setCustomer] = useState([]);
     const [error, setError] = useState("")
     const navigate = useNavigate();
+    
+    
     useEffect(()=>{
         fetch("http://localhost:4000/api/customer").then(res=>{
             return res.json()
@@ -32,7 +34,7 @@ function CustomerList(){
    }
   console.log(customer.length)
     return(<div>
-        <Navbar/>
+        <Navbar />
        <div className="Container">
             <button className="btn btn-success " onClick={UseNavigatePage}>Back to form</button>
         
