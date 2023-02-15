@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./CustomerList.css"
 import {useNavigate} from "react-router-dom"
+import Navbar from "../../../NavBar/Navbar";
 function CustomerList(){
 
     const [customer, setCustomer] = useState([]);
@@ -30,9 +31,11 @@ function CustomerList(){
     })
    }
   console.log(customer.length)
-    return(
+    return(<div>
+        <Navbar/>
        <div className="Container">
-            <button className="btn btn-success" onClick={UseNavigatePage}>Back to form</button>
+            <button className="btn btn-success " onClick={UseNavigatePage}>Back to form</button>
+        
          {customer.length === 0 && 
          <div className="alert alert-warning mt-3" role="alert">
          Unable to Connect {error}
@@ -68,7 +71,7 @@ function CustomerList(){
               
            </tbody>
           </table>}
-        </div>
+        </div></div>
     )
 }
 export default CustomerList;

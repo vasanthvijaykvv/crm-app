@@ -1,0 +1,23 @@
+
+.container{
+    margin-top: 100px;
+    display: flex;
+}
+
+
+.left,.right{
+    width: 50%;
+}
+
+.left{
+    display:  flex;
+    justify-content: center;
+    align-items: center;
+}
+img{
+    width: 50%;
+}
+.right{
+    border-left: 1px solid lightblue;
+    padding-left: 40px;
+}
