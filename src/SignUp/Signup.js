@@ -14,9 +14,9 @@ function Signup() {
       }
     }).then((res)=>{      
      console.log(res)
-     navigate("/signin")
+     navigate("/signin");
     }).catch((err)=>{
-      console.log(err)
+      console.log(err);
     })
     
   }
