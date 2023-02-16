@@ -22,6 +22,7 @@ function Navbar() {
     <div className="container-fluid">
     
       <i className="navbar-brand">CRM_APP<span className=" mx-2">
+        <a href='/' className="btn btn-secondary mx-2" type="button"> Home</a>
   <button className="btn btn-primary" onClick={NavigateUser} type="button">Users</button>  
        </span></i>
       

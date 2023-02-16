@@ -5,10 +5,19 @@ import React from 'react'
 
 function CustomerForm() {
     //const [customer,setCustomer] = useState({})
-    const [customerToUpdate, setCustomerToUpdate] = useState({})
+    const [customerToUpdate, setCustomerToUpdate] = useState(
+      {name :"",
+      website :"",
+      ceo:"",
+      employees :"",
+      year: "",
+      turnover : "",
+      status  : "New"
+    }
+      )
     const navigate = useNavigate();
     const {customerName} = useParams();
-    console.log(customerName)
+    //console.log(customerName)
     // useParams to get the data of the particular object
     useEffect(()=>{
       if(customerName){
@@ -27,7 +36,7 @@ function CustomerForm() {
     let Submitdata = (e) => {
       console.log(e)
       console.log(customerToUpdate)
-        if(!customerToUpdate.name||!customerToUpdate.website||!customerToUpdate.ceo||!customerToUpdate.employees||!customerToUpdate.year||!customerToUpdate.turnover){
+        if(!customerToUpdate.status||!customerToUpdate.name||!customerToUpdate.website||!customerToUpdate.ceo||!customerToUpdate.employees||!customerToUpdate.year||!customerToUpdate.turnover){
             console.log("error")
             return
         }
@@ -91,10 +100,19 @@ function CustomerForm() {
     <input className="form-control" type="number" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,employees : e.target.value})}} value={customerToUpdate.employees}  placeholder="Employee" />
     <input className="form-control" type="number" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,year : e.target.value})}} value={customerToUpdate.year}  placeholder="Year Of Started" />
     <input className="form-control" type="number" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,turnover : e.target.value})}} value={customerToUpdate.turnover}  placeholder="Turnover" />
-    {!customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("create")} value ="create "/>}
+   < div className="dropdown-center">   
+   <select className=" btn btn-info mx-3 "
+    type="button"  value={customerToUpdate.status} aria-expanded="false" onChange={(e)=>{setCustomerToUpdate({...customerToUpdate,status : e.target.value})}}>
+    <option className="dropdown-item" value="New" type ="button">New</option>
+    <option className="dropdown-item" value = "Accepted" type ="button">Accepted</option>
+    <option className="dropdown-item" value = "Rejected" type ="button">Rejected</option>
+    </select>
+  </div>
+    {!customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("create")} value ="create " />}
     {customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("UpdateValue")} value ="UpdateValue "/>}
+
     </form>
-    
+  
     </div>
   )
 }

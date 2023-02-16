@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../NavBar/Navbar'
-
+import "./UserList.css"
 function UserList() {
   let [users, setUsers] = useState([]);
   
@@ -12,7 +12,28 @@ function UserList() {
     })
    },[])
    console.log(users)
- 
+   let DeActivateButton = (username) =>{
+       fetch("http://localhost:4000/api/user/deActivate/"+username,{
+          method : "PUT"          
+       } ).then((res)=>{
+        return res.json()
+       }).then((parsedResponse)=>{
+        setUsers(parsedResponse)
+       })
+   }
+   let ActivateButton = (username) =>{
+    fetch("http://localhost:4000/api/user/activate/"+username,{
+       method : "PUT"      
+    } ).then((res)=>{
+     return res.json()
+    }).then((parsedResponse)=>{
+     setUsers(parsedResponse)
+    })
+}    
+   
+
+       
+       
   return (
     <div><Navbar/>
        <div className="Container">
@@ -29,7 +50,7 @@ function UserList() {
                    <th scope="col">Name</th>
                    <th scope="col">Email Id</th>                   
                    <th scope="col">UserName</th>                   
-                   <th scope="col">IsActive</th>                   
+                   <th scope="col" className='activeStatus'>IsActive</th>                   
                </tr>
            </thead>
            <tbody>
@@ -40,7 +61,8 @@ function UserList() {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.username}</td>
-                    <td>{user.isActive ? "YES" : "NO"}</td>
+                    <td className='activeStatus'>{!user.isActive && <button onClick={()=>ActivateButton(user.username)} className="btn btn-success  ">Activate</button>}
+                    {user.isActive && <button onClick={()=>DeActivateButton(user.username)} className="btn btn-danger ">De-Activate</button> }</td>
                     
                 </tr>
                    ))
@@ -54,7 +76,3 @@ function UserList() {
 }
 
 export default UserList
-/*<td>
-                       <button className="btn btn-warning mx-2" onClick={()=>handleEditClick(user.name)}>Edit</button>
-                        <button className="btn btn-danger" onClick={()=>handleDisableClick(user.name)}>Delete</button>
-                    </td>*/
