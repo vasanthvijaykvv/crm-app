@@ -14,10 +14,17 @@ function Navbar() {
     localStorage.removeItem("loggedIn");
       navigate("/signin");
   }
+  let NavigateUser = () =>{
+    navigate("/users")
+  }
   return (
     <div><nav className="navbar bg-body-tertiary bg-light" data-bs-theme="dark">
     <div className="container-fluid">
-      <i className="navbar-brand">CRM_APP</i>
+    
+      <i className="navbar-brand">CRM_APP<span className=" mx-2">
+  <button className="btn btn-primary" onClick={NavigateUser} type="button">Users</button>  
+       </span></i>
+      
       <form className="d-flex" role="search">
         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button  className="btn btn-success mx-2" >Search</button>

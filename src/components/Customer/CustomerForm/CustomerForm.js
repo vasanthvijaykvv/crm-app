@@ -22,7 +22,7 @@ function CustomerForm() {
              }
            })
       }
-    },[])
+    },[customerName])
 
     let Submitdata = (e) => {
       console.log(e)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import "./Signin.js"
+import "./Signin.css"
 function Signin() {
   let [logindetails,setLogindetails] = useState({});
   let [error, setError] = useState(false)
@@ -37,12 +37,12 @@ function Signin() {
        </div>}
    
 <div className=" mb-3">
-  <label for="inputEmail3" htmlFor='email' className="form-label">Email Id</label>  
+  <label for="inputEmail3" className="form-label">Email Id</label>  
     <input type="email" onInput={(e)=>setLogindetails({...logindetails,email:e.target.value})} className="form-control" id="inputEmail3"/>
   
 </div>
 <div className=" mb-3">
-  <label for="inputPassword3" htmlFor='password' className="form-label">Password</label> 
+  <label for="inputPassword3"  className="form-label">Password</label> 
     <input type="password" onInput={(e)=>setLogindetails({...logindetails,password:e.target.value})} className="form-control" id="inputPassword3"/>  
 </div>
 <div className="d-grid gap-2 col-2 mx-auto">
