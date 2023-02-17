@@ -16,23 +16,29 @@ function CustomerList(){
         fetch("http://localhost:4000/api/customer").then(res=>{
             return res.json()
         }).then(res=> { setCustomer(res)
-            ;setFilteredCustomer(res);
-         let NewCount = res.filter(c => c.status ==="New" ).length;
-         let acceptedCount = res.filter(c => c.status ==="Accepted" ).length;
-         let rejectedCount = res.filter(c => c.status ==="Rejected" ).length;
-               let CountObj = {
-                "newCustomer" :NewCount ,
-                "accepted": acceptedCount,
-                "rejected":rejectedCount ,
-                "total":res.length
-               }  ;
-               setCounts(CountObj)
+            ;setFilteredCustomer(res);         
         }
          )
         .catch((err)=>{
             setError(err.message)
         })
     },[])
+    useEffect(()=>{
+        fetch("http://localhost:4000/api/customer").then(res=>{
+            return res.json()
+        }).then(res =>{
+            let NewCount = res.filter(c => c.status ==="New" ).length;
+            let acceptedCount = res.filter(c => c.status ==="Accepted" ).length;
+            let rejectedCount = res.filter(c => c.status ==="Rejected" ).length;
+                  let CountObj = {
+                   "newCustomer" :NewCount ,
+                   "accepted": acceptedCount,
+                   "rejected":rejectedCount ,
+                   "total":res.length
+                  }  ;
+                  setCounts(CountObj)
+        })
+    },[filteredCustomer])
    function UseNavigatePage () {
        navigate("/form")
    }
@@ -45,7 +51,7 @@ function CustomerList(){
         method :"DELETE"
     }).then(res=>{
         return res.json()
-    }).then(res=>  setCustomer(res)).catch((err)=>{
+    }).then(res=>  {setCustomer(res);setFilteredCustomer(res)}).catch((err)=>{
         setError(err.message)
     })
    }
