@@ -2,17 +2,34 @@ import { useEffect, useState } from "react";
 import "./CustomerList.css"
 import {useNavigate} from "react-router-dom"
 import Navbar from "../../../NavBar/Navbar";
+import CustomerDashBoard from "../../../CustomerDashBoard/CustomerDashBoard.js";
 function CustomerList(){
 
     const [customer, setCustomer] = useState([]);
+    const [filteredCustomer,setFilteredCustomer] = useState([]);
     const [error, setError] = useState("")
+    let[counts,setCounts] = useState({})
     const navigate = useNavigate();
     
     
     useEffect(()=>{
         fetch("http://localhost:4000/api/customer").then(res=>{
             return res.json()
-        }).then(res=>  setCustomer(res)).catch((err)=>{
+        }).then(res=> { setCustomer(res)
+            ;setFilteredCustomer(res);
+         let NewCount = res.filter(c => c.status ==="New" ).length;
+         let acceptedCount = res.filter(c => c.status ==="Accepted" ).length;
+         let rejectedCount = res.filter(c => c.status ==="Rejected" ).length;
+               let CountObj = {
+                "newCustomer" :NewCount ,
+                "accepted": acceptedCount,
+                "rejected":rejectedCount ,
+                "total":res.length
+               }  ;
+               setCounts(CountObj)
+        }
+         )
+        .catch((err)=>{
             setError(err.message)
         })
     },[])
@@ -32,17 +49,33 @@ function CustomerList(){
         setError(err.message)
     })
    }
-  console.log(customer)
+   function handleSearch(key){
+      if(!key | key.length===0 ){
+        setFilteredCustomer(customer)
+      }else{
+        const result = customer.filter((c)=>
+        { return c.name.toLowerCase().includes(key.toLowerCase())
+         })
+        setFilteredCustomer(result)
+      }
+        
+   }
+  console.log(filteredCustomer)
     return(<div>
         <Navbar />
+        <CustomerDashBoard {...counts}/>
        <div className="Container table-responsive">
-            <button className="btn btn-success " onClick={UseNavigatePage}>New Customer</button>
-        
-         {customer.length === 0 && 
-         <div className="alert alert-warning mt-3" role="alert">
+        <button className="btn btn-success " onClick={UseNavigatePage}>New Customer</button>
+        <form className="d-flex float-end" role="search">
+        <input className="form-control search-box"
+        onInput={(e)=>{handleSearch(e.target.value)}} type="search" placeholder="Search"/>
+        <button  className="btn btn-success " >Search</button>
+      </form>
+           
+          {filteredCustomer.length === 0 && <div className="alert alert-warning mt-3" role="alert">
          Unable to Connect {error}
        </div>}
-         { customer.length>0 && <table className="table table-striped  ">
+         { filteredCustomer.length>0 && <table className="table table-striped  ">
            <thead>
                <tr>
                    <th scope="col">Name</th>
@@ -56,7 +89,7 @@ function CustomerList(){
            </thead>
            <tbody>
                {
-                   customer.map ((c,i)=>(
+                   filteredCustomer.map ((c,i)=>(
                     <tr key={i}>
                     <td>{c.name}</td>                    
                     <td>{c.turnover}</td>

@@ -1,3 +1,17 @@
 .Container{
     margin: 36px !important;
 }
+
+.btn-success{
+    width : 200px !important;
+
+}
+.search-box{
+    width: 425px !important;
+    
+}
+
+.search-box-wrapper{
+    display: flex !important;
+    align-items: center;
+}
