@@ -1,6 +1,6 @@
 import  { useEffect, useState} from "react";
-import {useNavigate,useParams} from "react-router-dom"
-import React from 'react'
+import {useNavigate,useParams} from "react-router-dom";
+import React from 'react';
 
 
 function CustomerForm() {
@@ -21,12 +21,14 @@ function CustomerForm() {
     // useParams to get the data of the particular object
     useEffect(()=>{
       if(customerName){
+        /* ("url"/ + customerName).then().then(res = > setCustomerToUpdeta(res))
+        the value can set easily*/
         fetch("http://localhost:4000/api/customer").then((res)=>{
              return res.json()
            }).then(res=>{
              let result = res.find(c=> c.name === customerName)
              if(result){
-               
+               console.log(result)
                setCustomerToUpdate(result)
              }
            })
@@ -36,10 +38,13 @@ function CustomerForm() {
     let Submitdata = (e) => {
       console.log(e)
       console.log(customerToUpdate)
-        if(!customerToUpdate.status||!customerToUpdate.name||!customerToUpdate.website||!customerToUpdate.ceo||!customerToUpdate.employees||!customerToUpdate.year||!customerToUpdate.turnover){
+        if(!customerToUpdate.status||!customerToUpdate.name||!customerToUpdate.ceo||!customerToUpdate.employees||!customerToUpdate.year||!customerToUpdate.turnover){
             console.log("error")
             return
         }
+        // use method : e ? "POST" : PUT to 
+        // avoid excess coding
+        // remove if Condition
        if(e==="create"){
         fetch("http://localhost:4000/api/customer",{
           method : "POST",
@@ -54,7 +59,7 @@ function CustomerForm() {
           navigate("/")
         })
        }
-       if(e==="UpdateValue"){
+       if(e==="UpdateValue"){        
         fetch("http://localhost:4000/api/customer",{
           method : "PUT",
           body : JSON.stringify(customerToUpdate),
@@ -108,8 +113,8 @@ function CustomerForm() {
     <option className="dropdown-item" value = "Rejected" type ="button">Rejected</option>
     </select>
   </div>
-    {!customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("create")} value ="create " />}
-    {customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("UpdateValue")} value ="UpdateValue "/>}
+    {!customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("create")} value ="create" />}
+    {customerName&&<input type = "button" className="btn btn-success" onClick={()=>Submitdata("UpdateValue")} value ="UpdateValue"/>}
 
     </form>
   

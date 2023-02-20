@@ -23,7 +23,8 @@ function Navbar() {
     
       <i className="navbar-brand">CRM_APP<span className=" mx-2">
         <a href='/' className="btn btn-secondary mx-2" type="button"> Home</a>
-  <button className="btn btn-primary" onClick={NavigateUser} type="button">Users</button>  
+  <button className="btn btn-primary" onClick={NavigateUser} type="button">Users</button>
+  <a href='/ticket' className="btn btn-danger  mx-2" type="button"> Ticket</a>  
        </span></i>
       
       <form className="d-flex" role="search">

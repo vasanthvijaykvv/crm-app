@@ -3,8 +3,10 @@ import CustomerList from "../../components/Customer/CustomerList/CustomerList"
 import SecuredRoutes from "../../SecuredRoutes/SecuredRoutes"
 import Signin from "../../SignIn/Signin"
 //import Signup from "../../SignUp/Signup"
+import TicketForm from "../../Ticket/TicketForm"
 import UserList from "../../User/UserList"
 import UserForm from "../../User/UserForm/UserForm"
+import TicketList from "../../Ticket/TicketList.js"
 import {BrowserRouter as Router, Routes,Route} from "react-router-dom"
 function Customer() {
     return (
@@ -18,7 +20,8 @@ function Customer() {
            <Route path='/form/:customerName' element={<CustomerForm/>}/> 
            {/*<Route path="/signup" element ={<Signup/>}/>*/}    
            <Route path="/signin" element ={<Signin/>}/>   
-
+           <Route path="/ticket" element ={<SecuredRoutes><TicketList/></SecuredRoutes>}/> 
+           <Route path="/ticketform" element ={<SecuredRoutes><TicketForm/></SecuredRoutes>}/> 
            </Routes>
            </Router>
         </div>
