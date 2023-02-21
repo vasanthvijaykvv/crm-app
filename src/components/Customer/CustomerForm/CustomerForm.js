@@ -6,8 +6,7 @@ import React from 'react';
 function CustomerForm() {
     //const [customer,setCustomer] = useState({})
     const [customerToUpdate, setCustomerToUpdate] = useState(
-      {name :"",
-      website :"",
+      {name :"",    
       ceo:"",
       employees :"",
       year: "",
@@ -98,7 +97,7 @@ function CustomerForm() {
   return (
     <div><h2>CRM_APP</h2>
     <form className="d-grid gap-2">
-    {customerName&&<input className="form-control" readOnly="true" type="text" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,name : e.target.value})}}  value={customerToUpdate.name}  placeholder="Company Name" />}
+    {customerName&&<input className="form-control" readOnly={true} type="text" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,name : e.target.value})}}  value={customerToUpdate.name}  placeholder="Company Name" />}
     {!customerName&&<input className="form-control"  type="text" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,name : e.target.value})}}  value={customerToUpdate.name}  placeholder="Company Name" />}
     <input className="form-control" type="text" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,website : e.target.value})}}  value={customerToUpdate.website} placeholder="Company Website" />
     <input className="form-control" type="text" onInput={(e)=>{setCustomerToUpdate({...customerToUpdate,ceo : e.target.value})}} value={customerToUpdate.ceo} placeholder="Compant CEO" />

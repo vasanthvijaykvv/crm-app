@@ -31,11 +31,7 @@ function UserForm() {
     }).then((res)=>{
         navigate("/users")
     })
-   }
-    
-
-       
-  
+   } 
     
   return (
     <div><h2>CRM_APP</h2>
