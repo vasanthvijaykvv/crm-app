@@ -22,7 +22,7 @@ function CustomerForm() {
       if(customerName){
         /* ("url"/ + customerName).then().then(res = > setCustomerToUpdeta(res))
         the value can set easily*/
-        fetch("http://localhost:4000/api/customer").then((res)=>{
+        fetch(process.env.REACT_APP_APIURL+"customer").then((res)=>{
              return res.json()
            }).then(res=>{
              let result = res.find(c=> c.name === customerName)
@@ -41,11 +41,11 @@ function CustomerForm() {
             console.log("error")
             return
         }
-        // use method : e ? "POST" : PUT to 
+        // use method : customerName ? "PUT" : "POST" to 
         // avoid excess coding
         // remove if Condition
        if(e==="create"){
-        fetch("http://localhost:4000/api/customer",{
+        fetch(process.env.REACT_APP_APIURL+"customer",{
           method : "POST",
           body : JSON.stringify(customerToUpdate),
           headers:{
@@ -59,7 +59,7 @@ function CustomerForm() {
         })
        }
        if(e==="UpdateValue"){        
-        fetch("http://localhost:4000/api/customer",{
+        fetch(process.env.REACT_APP_APIURL+"customer",{
           method : "PUT",
           body : JSON.stringify(customerToUpdate),
           headers:{

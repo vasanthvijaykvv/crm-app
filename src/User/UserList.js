@@ -5,7 +5,7 @@ function UserList() {
   let [users, setUsers] = useState([]);
   
    useEffect(()=>{
-    fetch("http://localhost:4000/api/user").then((res)=>{
+    fetch(process.env.REACT_APP_APIURL+"user").then((res)=>{
       return res.json()
     }).then((parsedResult)=>{
           setUsers(parsedResult)
@@ -13,7 +13,7 @@ function UserList() {
    },[])
    console.log(users)
    let DeActivateButton = (username) =>{
-       fetch("http://localhost:4000/api/user/deActivate/"+username,{
+       fetch(process.env.REACT_APP_APIURL+"user/deActivate/"+username,{
           method : "PUT"          
        } ).then((res)=>{
         return res.json()
@@ -22,18 +22,14 @@ function UserList() {
        })
    }
    let ActivateButton = (username) =>{
-    fetch("http://localhost:4000/api/user/activate/"+username,{
+    fetch(process.env.REACT_APP_APIURL+"user/activate/"+username,{
        method : "PUT"      
     } ).then((res)=>{
      return res.json()
     }).then((parsedResponse)=>{
      setUsers(parsedResponse)
     })
-}    
-   
-
-       
-       
+}       
   return (
     <div><Navbar/>
        <div className="Container">

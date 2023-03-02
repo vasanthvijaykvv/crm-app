@@ -22,7 +22,7 @@ function UserForm() {
     },[customerName])*/
    let HandleFormSubmit = () =>{
     console.log(userToUpdate);
-    fetch("http://localhost:4000/api/user/signup",{
+    fetch(process.env.REACT_APP_APIURL+"user/signup",{
         method : "POST",
         body : JSON.stringify(userToUpdate),
         headers:{
@@ -31,8 +31,7 @@ function UserForm() {
     }).then((res)=>{
         navigate("/users")
     })
-   } 
-    
+   }     
   return (
     <div><h2>CRM_APP</h2>
     <form className=" my-3 gap-2">
@@ -45,12 +44,11 @@ function UserForm() {
   <input onChange={(e)=>{setUpdateUsers({...userToUpdate,isActive : e.target.checked})}}  className="form-check-input" type="checkbox" value="" id="flexCheckIndeterminateDisabled" ></input>
   <label className="form-check-label " for="flexCheckIndeterminateDisabled">
     IsActive
-  </label>
-</div>
+  </label> 
+    </div>
       </div>
     <button onClick={HandleFormSubmit} className="btn btn-primary float-end" type = "button">Create New User</button>
-    </form>
-    
+    </form>   
     </div>
   )
 }

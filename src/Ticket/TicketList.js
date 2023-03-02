@@ -2,19 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../NavBar/Navbar'
 import { useNavigate } from "react-router-dom"
 import "./TicketList.css"
+import TicketdashBoard from './TicketDashBoard/TicketdashBoard'
 function TicketList() {
   let [tickets, setTickets] = useState([]);
   let [filtertickets, setfilterTickets] = useState([])
+  let [newObj, setNewObj] = useState({})
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:4000/api/ticket").then(res => res.json())
+    fetch(process.env.REACT_APP_APIURL+"ticket").then(res => res.json())
       .then(parsedRes => {
         console.log(parsedRes);
         setTickets(parsedRes);
         setfilterTickets(parsedRes)
+        let Obj = {};
+        Obj.total = parsedRes.length;
+       Obj.newTicket  = parsedRes.filter((e) => e.status  === "New").length;
+       Obj.assigned = parsedRes.filter((e) => e.status  === "Assigned").length;
+       Obj.resolved  = parsedRes.filter((e) => e.status  === "Resolved").length;
+       Obj.inProgress  = parsedRes.filter((e) => e.status  === "In Progress").length;
+        setNewObj(Obj)
       })
+      
   }, [])
-
+ 
   let NewTicket = () => {
     navigate("/ticketform")
   }
@@ -29,11 +39,26 @@ function TicketList() {
       setTickets(result)
     }
   }
+  function HandleStyleStatus(status){
+    switch(status){
+        case "New" :
+        return "badge bg-info text-wrap text-center fs-6 p-2";
+        case "Assigned" :
+        return "badge bg-success text-wrap text-center fs-6 p-2";
+        case "In Progress" :
+        return "badge bg-danger text-wrap text-center fs-6 p-2";
+        case "Resolved" :
+        return "badge bg-primary text-wrap text-center fs-6 p-2";
+        default :
+        return status
+    }
+  }
   return (
     <div><Navbar />
+    <TicketdashBoard {...newObj}/>
       <div className='my-3'> <button className="btn btn-success  mx-4" onClick={NewTicket} >New Ticket</button>
         <form className="d-flex float-end" role="search">
-          <input className="form-control search-box"
+          <input className="form-control search-box mx-5"
             onChange={(e) => { handleSearch(e.target.value) }} type="search" placeholder="Search" />
         </form>
       </div>
@@ -63,7 +88,8 @@ function TicketList() {
                   <td>{t.desc}</td>
                   <td>{t.assignedTo}</td>
                   <td>{t.raisedOn}</td>
-                  <td>{t.status}</td>
+                  <td>
+                  <div className={HandleStyleStatus(t.status)} style={{ width: "6rem" }}>{t.status}</div></td>
                   <td>
                     <button className="btn btn-warning mx-2" onClick={() => handleEditClick(t.desc)}>Edit</button>
                   </td>

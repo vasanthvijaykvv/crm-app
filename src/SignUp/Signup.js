@@ -6,7 +6,7 @@ function Signup() {
   const navigate = useNavigate();
 
   let SubmitUserDetails = () =>{   
-    fetch("http://localhost:4000/api/user/signup",{
+    fetch(process.env.REACT_APP_APIURL+"user/signup",{
       method : "POST",
       body : JSON.stringify(userDetails),
       headers:{

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./CustomerList.css"
 import { useNavigate } from "react-router-dom"
 import Navbar from "../../../NavBar/Navbar";
+
 import CustomerDashBoard from "../../../CustomerDashBoard/CustomerDashBoard.js";
 function CustomerList() {
 
@@ -14,13 +15,14 @@ function CustomerList() {
   const navigate = useNavigate();
 
 
+
   useEffect(() => {
     //This API shows 100 data per page
-    fetch("http://localhost:4000/api/customer/page/1").then(res => {
+    fetch(process.env.REACT_APP_APIURL+"customer/page/1").then(res => {
       return res.json()
     }).then(res => {
       setCustomer(res.records)
-      console.log(res.records);
+      console.log(res);
       setFilteredCustomer(res.records);
       //Creating the Array of pages tho display pagination   
       let totalPages = Math.ceil(res.totalCount / 100);
@@ -36,17 +38,17 @@ function CustomerList() {
 
   useEffect(() => {
     //this api shows total data in the array
-    fetch("http://localhost:4000/api/customer").then(res => {
+    fetch(process.env.REACT_APP_APIURL+"customer").then(res => {
       return res.json()
     }).then(res => {
       let NewCount = res.filter(c => c.status === "New").length;
       let acceptedCount = res.filter(c => c.status === "Accepted").length;
       let rejectedCount = res.filter(c => c.status === "Rejected").length;
       let CountObj = {
-        "newCustomer": NewCount,
-        "accepted": acceptedCount,
-        "rejected": rejectedCount,
-        "total": res.length
+        newCustomer: NewCount,
+        accepted: acceptedCount,
+        rejected: rejectedCount,
+        total: res.length
       };
       setCounts(CountObj)
     })
@@ -59,7 +61,7 @@ function CustomerList() {
     navigate("/form/" + name)
   }
   function handleDeleteClick(name) {
-    fetch("http://localhost:4000/api/customer/" + name, {
+    fetch(process.env.REACT_APP_APIURL+"customer/" + name, {
       method: "DELETE"
     }).then(res => {
       return res.json()
@@ -89,7 +91,7 @@ function CustomerList() {
   let Pagination = (pageNo) => {
     //Paginating    
     setPreviousNext(pageNo)
-    fetch("http://localhost:4000/api/customer/page/" + pageNo).then(res => {
+    fetch(process.env.REACT_APP_APIURL+"customer/page/" + pageNo).then(res => {
       return res.json()
     }).then(res => {
       setCustomer(res.records)
@@ -103,16 +105,22 @@ function CustomerList() {
     if (!key | key.length === 0) {
       setFilteredCustomer(customer)
     } else {
-      const result = customer.filter((c) => {
-        return c.name.toLowerCase().includes(key.toLowerCase())
+      fetch(process.env.REACT_APP_APIURL+"customer").then(res => {
+        return res.json()
+      }).then((res) => {
+        const result = res.filter((c) => {
+          return c.name.toLowerCase().includes(key.toLowerCase())
+        })
+        setFilteredCustomer(result)
       })
-      setFilteredCustomer(result)
+      
+     
     }
 
   }
   //console.log(filteredCustomer)
   return (<div>
-    <Navbar />
+    <Navbar />    
     <CustomerDashBoard {...counts} />
     <div className="Container table-responsive">
       <button className="btn btn-success " onClick={UseNavigatePage}>New Customer</button>
@@ -129,7 +137,6 @@ function CustomerList() {
         <thead>
           <tr>
             <th scope="col">Name</th>
-
             <th scope="col">Turnover</th>
             <th scope="col-auto">NumberofEmployees</th>
             <th scope="col">CEO</th>

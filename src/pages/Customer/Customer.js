@@ -11,10 +11,12 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
 import 'primereact/resources/primereact.css';                       // core css
 import 'primeicons/primeicons.css';                                 // icons
 import 'primeflex/primeflex.css';
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 function Customer() {
     return (
         <div>
+            
             <Router>
                 <Routes>
                     <Route path="/" element={<SecuredRoutes><CustomerList /></SecuredRoutes>} />
@@ -26,7 +28,7 @@ function Customer() {
                     <Route path="/signin" element={<Signin />} />
                     <Route path="/ticket" element={<SecuredRoutes><TicketList /></SecuredRoutes>} />
                     <Route path="/ticketform" element={<SecuredRoutes><TicketForm /></SecuredRoutes>} />
-                    <Route path="/ticketform/:desc" element={<SecuredRoutes><TicketForm /></SecuredRoutes>} />
+                    <Route path='/ticketform/:desc' element={<SecuredRoutes><TicketForm /></SecuredRoutes>} />
                 </Routes>
             </Router>
         </div>

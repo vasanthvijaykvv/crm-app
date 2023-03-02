@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-//import { Dropdown } from 'primereact/dropdown';        
+import { Dropdown } from 'primereact/dropdown';        
 import "./TicketList.css"
 function TicketForm() {
   const [newTicket, setNewTicket] = useState({
@@ -15,17 +15,18 @@ function TicketForm() {
   const [getCustomerName, setGetCustomerName] = useState([])
   const [getUserName, setGetUserName] = useState([])
   const navigate = useNavigate()
-
+  console.log(desc)
   useEffect(() => {
     // To Get The Customer Data
-    fetch("http://localhost:4000/api/customer").then(res => res.json())
+    fetch(process.env.REACT_APP_APIURL+"customer").then(res => res.json())
       .then(res => setGetCustomerName(res));
     // To get The users data  
-    fetch("http://localhost:4000/api/user").then(res => res.json())
+    fetch(process.env.REACT_APP_APIURL+"user").then(res => res.json())
       .then(res => setGetUserName(res))
     if (desc) {
-      fetch("http://localhost:4000/api/ticket/" + desc).then((res) => { return res.json() })
+      fetch(process.env.REACT_APP_APIURL+"ticket/"+desc).then((res) => { return res.json() })
         .then(res => {
+          console.log(res)
           return setNewTicket(res)
         }
         );
@@ -39,8 +40,9 @@ function TicketForm() {
       SetValueMissing(true)
       return
     }
+    console.log(newTicket)
 
-    fetch("http://localhost:4000/api/ticket", {
+    fetch(process.env.REACT_APP_APIURL+"ticket", {
       method: desc ? "PUT" : "POST",
       body: JSON.stringify(newTicket),
       headers: {
@@ -61,17 +63,21 @@ function TicketForm() {
       <form className="d-grid gap-2 p-2">
 
         <label className="my-1 mx-4 fs-5 fw-semibold for-lable" htmlFor="Customer">Customer Name</label>
-        <select className=" btn btn-warning mx-3  " id="Customer" disabled={desc ? true : false}
+        {/*<select className=" btn btn-warning mx-3  " id="Customer" disabled={desc ? true : false}
           type="button" value={newTicket.customer} aria-expanded="false"
           onChange={(e) => { setNewTicket({ ...newTicket, customer: e.target.value }); SetValueMissing(false) }}>
           {getCustomerName.map((c, i) => {
             return <option key={i} className="dropdown-item py-3" value={c.name} type="button">{c.name}</option>
           })}
-        </select>
-        { /*<Dropdown value={newTicket.customer} 
-        onChange={(e) => { setNewTicket({  customer: e.value}); SetValueMissing(false) }}
+        </select>*/}
+
+        <Dropdown disabled={desc}
+        value={
+          getCustomerName.find(c=> c.name === newTicket.customer) 
+        } 
+        onChange={(e) => { setNewTicket({...newTicket, customer: e.value.name }); SetValueMissing(false) }}
         options={getCustomerName} optionLabel = "name" placeholder='select a customer' filter className="w-full "
-      /> */ }
+      /> 
 
 
         <label className="my-1 mx-4 fs-5 fw-semibold" htmlFor="Assigned To">Assigned To</label>

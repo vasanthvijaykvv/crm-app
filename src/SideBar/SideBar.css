@@ -1,0 +1,18 @@
+
+.p-sidebar-close {
+    display: none !important;
+}
+
+p{
+    padding: 12px !important;
+    margin-bottom: 6px;
+      
+    font-size: large;
+    font-weight: 600;  
+}
+
+.menus{
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-start;
+}

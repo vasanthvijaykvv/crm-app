@@ -7,7 +7,7 @@ function Signin() {
   let navigate = useNavigate()
  let  handleSigninClick = () =>{
   setError(false)
- fetch("http://localhost:4000/api/user/signin",{
+ fetch(process.env.REACT_APP_APIURL+"user/signin",{
     method : "POST",
     body : JSON.stringify(logindetails),
     headers : {
@@ -46,7 +46,7 @@ function Signin() {
     <input type="password" onInput={(e)=>setLogindetails({...logindetails,password:e.target.value})} className="form-control" id="inputPassword3"/>  
 </div>
 <div className="d-grid gap-2 col-2 mx-auto">
-<button className="btn btn-info"  onClick={handleSigninClick}>Sign In</button>
+<button className="btn btn-info p-2"  onClick={handleSigninClick}>Sign In</button>
 </div>
 
       </div>
